@@ -18,4 +18,3 @@ function averagePair(arr, float) {
     }
     return false;
 }
-
