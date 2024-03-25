@@ -1,10 +1,11 @@
-class MaxBinaryHeap {
+class PriorityQueue {
     constructor() {
         this.values = [];
     }
 
-    insert(element) {
-        this.values.push(element);
+    enqueue(value, priority) {
+        let newNode = new Node(value, priority);
+        this.values.push(newNode);
         this.bubbleUp();
     }
 
@@ -14,14 +15,14 @@ class MaxBinaryHeap {
         while (index > 0) {
             const parentIndex = Math.floor((index - 1)/2);
             const parent = this.values[parentIndex];
-            if (element <= parent) break;
+            if (element.priority <= parent.priority) break;
             this.values[parentIndex] = element;
             this.values[index] = parent;
             index = parentIndex;
         }
     }
 
-    extractMax() {
+    dequeue() {
         const max = this.values[0];
         const end = this.values.pop();
         if (this.values.length > 0) {
@@ -44,15 +45,15 @@ class MaxBinaryHeap {
 
             if (leftChildIndex < length) {
                 leftChild = this.values[leftChildIndex];
-                if (leftChild > element) {
+                if (leftChild.priority > element.priority) {
                     swap = leftChildIndex;
                 }
             }
             if (rightChildIndex < length) {
                 rightChild = this.values[rightChildIndex];
                 if (
-                    (swap === null && rightChild > element) ||
-                    (swap !== null && rightChild > leftChild)
+                    (swap === null && rightChild.priority > element.priority) ||
+                    (swap !== null && rightChild.priority > leftChild.priority)
                 ) {
                     swap = rightChildIndex;
                 }
@@ -63,5 +64,12 @@ class MaxBinaryHeap {
             this.values[swap] = element;
             index = swap;
         }
+    }
+}
+
+class Node {
+    constructor(value, priority) {
+        this.value = value;
+        this.priority = priority;
     }
 }
